@@ -1,0 +1,268 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "poppins", sans-serif;
+}
+body{
+    background: url("./assets/bg-1.jpg") no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100vh;
+}
+body::-webkit-scrollbar{
+    display: none;
+}
+.container {
+    width: 100%;
+    /* max-width: 800px; */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    font-family: "poppins", sans-serif;    
+    background: rgba(29, 0, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(1.9px);
+    -webkit-backdrop-filter: blur(1.9px);
+    border: 1px solid rgba(29, 0, 255, 0.08);
+}
+.content_1,.content_2{
+    width: 100%;
+    align-items: center;
+    justify-content: center;    
+}
+.content_1 .cont{
+    width: 100%;
+    text-align: center;
+}
+.content_2 .cont .add_vehicle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.content_2 .cont-2{
+    height: 500px;
+    
+}
+.content_2 .cont .add_vehicle input[type="file"]{
+    display: none;
+}
+.content_2 .cont .add_vehicle label, .finalize button{ 
+    display: inline-block;
+    color: white;
+    background: red;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px black;
+    cursor: pointer;    
+}
+.finalize{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.finalize button{
+    background: green;
+    width: 300px;
+    outline: none;
+    border: none;
+}
+.finalize {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.finalize ul{
+    width: 100%;
+    height: 400px;
+    overflow-y: scroll;
+}
+.finalize ul::-webkit-scrollbar{
+    display: none;
+}
+/* List of Added Vehicles */
+.finalize ul {
+    list-style-type: none;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+.finalize ul li {
+    font-size: 18px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 8px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    color: #000000;
+}
+
+.finalize ul li span {
+    font-weight: bold;
+}
+.add_vehicle label:active,.finalize button:active{
+    transform: scale(0.9);
+}
+.content_1 h2,.content_2 h2{
+    font-size: 30px;
+}
+.content_2 .cont{
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    padding: 20px;
+    margin: 10px 10px;
+    background: rgba(255, 255, 255, 0.57);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.6px);
+    -webkit-backdrop-filter: blur(4.6px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.content_3 .cont{
+    width: 350px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    padding: 20px;
+    margin: 10px 10px;
+    background: rgba(255, 255, 255, 0.57);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.6px);
+    -webkit-backdrop-filter: blur(4.6px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.content_3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.email_send{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;    
+}
+.email_send #emailInput{
+    outline: none;
+    border: none;
+    width: 250px;
+    padding: 7px 10px;
+    border-radius: 6px;
+}
+#Send_Email{
+    background: green;
+}
+.email_send button{
+    outline: none;
+    border: none;
+    padding: 7px 10px;
+    width: 250px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    background-color: red;
+    box-shadow: 5px 5px 10px black;
+}
+.email_send button:active{
+    transform: scale(0.9);
+}
+.Graph{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.efficiency,.tickets{
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+.Graph button{
+    margin: 10px 0 10px 0;
+    outline: none;
+    border: none;
+    padding: 7px 10px;
+    width: 250px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    background-color: red;
+    box-shadow: 5px 5px 10px black;
+}
+.Graph button:active{
+    transform: scale(0.9);
+}
+
+.ai_response{
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+
+}
+.ai_response .col-sm-12{
+    display: flex;
+    flex-direction: column;
+}
+.ai_response .col-sm-12 #para{
+    margin: 5px;
+    padding: 12px;
+}
+.ai_response .col-sm-12 i{
+    font-size: 25px;
+    cursor: pointer;
+    margin: 10px;
+}
+.ai_response .col-sm-12 button{
+    width: 200px;
+    padding: 10px 20px;
+    font-size: 18px;
+    outline: none;
+    border: none;
+    background: rgb(93, 93, 214);
+    color: white;
+    cursor: pointer;
+    border-radius: 18px;
+    margin: 10px ;
+}
+.col-sm-12 button:hover{
+    background:blue;
+    box-shadow: 3px 3px 10px black;
+}
+.loading {
+    padding: 1em;
+    color: #666;
+}
+#yellow_back{
+    background: rgba(252, 255, 0, 0.68);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(252, 255, 0, 0.3);
+}
+.analysis p{
+    font-size: 18px;
+    font-weight: 500;
+}

@@ -1,0 +1,12 @@
+// HTML
+<input type="text" id="myInput" value="Text to copy">
+<button onclick="copyToClipboard()">Copy text</button>
+
+// JavaScript
+function copyToClipboard() {
+    const textToCopy = document.getElementById("myInput");
+    navigator.clipboard.writeText(textToCopy.value)
+        .then(() => alert('Text copied!'))
+        .catch(err => console.error('Failed to copy text: ', err));
+}
+

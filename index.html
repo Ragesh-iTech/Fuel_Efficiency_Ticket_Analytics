@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fule Efficiency & Ticket Analytics</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row content_1">
+            <div class="col-sm-12 col-md-12 col-lg-6 cont">
+                <h1>Fuel Efficiency & Ticket Analytics</h1>
+            </div>
+        </div>
+
+        <div class="row content_2">
+            <div class="col-sm-12 col-md-12 col-lg-6 cont">
+                <div class="add_vehicle">
+                    <h2>Upload Vehicle Data (Excel)</h2>
+                    <input type="file" id="upload" accept=".xlsx, .xls">
+                    <label for="upload"><i class="fa-solid fa-cloud-arrow-up"></i> Upload File</label>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 cont cont-2">
+                <div class="finalize">
+                    <h2>Vehicles Added</h2>
+                    <ul id="vehicleList"></ul>
+                    <button onclick="finalizeData()"><i class="fa-solid fa-hourglass-start"></i> Finalize and Analyze</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row content_3">
+            <div class="col-sm-12 col-md-12 col-lg-5 cont" id="yellow_back">
+                <div class="analysis">
+                    <h2>Analysis Results</h2>
+                    <p id="totalFuel"></p>
+                    <p id="totalTicketSales"></p>
+                    <p id="averageEfficiency"></p>
+                    <p id="bestVehicle"></p>
+                    <p id="worstVehicle"></p>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-5 cont">
+                <div class="email_send">
+                    <!-- Email section -->
+                    <h2>Send Results via Email</h2>
+                    <input type="email" id="emailInput" placeholder="Enter email address" required>
+                    <button onclick="sendEmail()" id="Send_Email" type="button"><i class="fa-solid fa-paper-plane"></i> Send Email</button>
+
+                    <!-- Button to download analysis data -->
+                    <button onclick="downloadCSV()" id="download_csv"><i class="fa-solid fa-cloud-arrow-down"></i> Download Analysis CSV</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row content_4">
+            <div class="col-sm-12 col-md-12 col-lg-6 Graph">
+                <!-- Canvas for Efficiency Line Graph -->
+                <h2>Efficiency (Line Graph)</h2>
+                <div class="efficiency">                
+                   <canvas id="efficiencyChart" style="width: 400px; height: 300px !important;"></canvas>
+                </div>
+                <button onclick="downloadEfficiencyImage()"><i class="fa-solid fa-cloud-arrow-down"></i> Download Image</button>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 Graph">
+                <!-- Canvas for Ticket Sales Histogram -->
+                <h2>Ticket Sales (Histogram)</h2>
+                <div class="tickets">                
+                   <canvas id="ticketSalesChart"  style="width: 400px; height: 300px !important;"></canvas>
+                </div>
+                <button onclick="downloadTicketSalesImage()"><i class="fa-solid fa-cloud-arrow-down"></i> Download Image</button>
+            </div>
+        </div>
+
+        <div class="row ai_response">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <button type="button" onclick="aiSuggestions()">AI Suggestions</button>
+                <div class="para"></div><br>
+                <i class="fa-solid fa-copy" onclick="copyToClipboard()"></i>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+      (function(){
+       emailjs.init("-QqMZyDvzEP0DdyQ5");
+       })();
+    </script>
+    <script>
+        
+// ==========================================================================
+
+        function sendEmail(){
+            let email = document.getElementById("emailInput").value;
+                     
+
+            // Validate email
+            if (!email) {
+                window.alert("Please enter an email address");
+                return;
+            }     
+            
+            
+
+            let templateParams = {
+                email : email,
+                message : `
+                ${document.getElementById("totalFuel").textContent} \n
+                ${document.getElementById("totalTicketSales").textContent} \n
+                ${document.getElementById("averageEfficiency").textContent} \n
+                ${document.getElementById("bestVehicle").textContent} \n
+                ${document.getElementById("worstVehicle").textContent} \n
+                ${document.querySelector(".para").textContent} \n
+                `,
+                
+            };
+            emailjs.send('service_i91vjxi', 'template_f2tacgm', templateParams).then(
+                function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    window.alert("Sent Successfully")
+                    
+                }
+            )
+        }
+
+// ==========================================================================
+    </script>
+    <script>
+        const para = document.querySelector('.para'); // Updated selector to match your HTML structure
+        const GEMINI_API_KEY = 'AIzaSyD5K9SxcFn4w_B7nOqPJpXePc_sw_piJd4';
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+            
+        async function generateContent(prompt) {
+            // Show loading state
+            para.innerHTML = '<div class="loading">Generating response...</div>';
+            
+            try {
+                const response = await fetch(`${API_URL}?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: prompt
+                            }]
+                        }]
+                    })
+                });
+            
+                // Check if the response is ok
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            
+                const data = await response.json();
+            
+                // Validate response data structure
+                if (!data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                    // If no content but response was ok, it might be a rate limit or empty response
+                    para.innerHTML = 'No response generated. Please try again in a moment.';
+                    return;
+                }
+            
+                const content = data.candidates[0].content.parts[0].text;
+                
+                // Format the content
+                let formattedContent = content
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*/g, '<br/>');
+            
+                // Clear loading state
+                para.innerHTML = '';
+                
+                // Split into words for typing effect
+                const words = formattedContent.split(' ');
+                
+                // Typing effect function
+                const typeWord = (index) => {
+                    if (index < words.length) {
+                        para.innerHTML += (index > 0 ? ' ' : '') + words[index];
+                        setTimeout(() => typeWord(index + 1), 75);
+                    }
+                };
+            
+                // Start typing effect
+                typeWord(0);
+            
+            } catch (error) {
+                // Handle errors gracefully without showing technical details
+                para.innerHTML = 'Unable to generate response at the moment. Please try again later.';
+                
+                // Log error for debugging
+                console.error('Error details:', error);
+            }
+        }
+
+        
+        // Optional: Add a retry mechanism
+        function retryGenerateContent(prompt, maxRetries = 3) {
+            let attempts = 0;
+            
+            const attempt = () => {
+                attempts++;
+                generateContent(prompt).catch(error => {
+                    if (attempts < maxRetries) {
+                        setTimeout(attempt, 1000 * attempts); // Exponential backoff
+                    }
+                });
+            };
+            
+            attempt();
+        }
+        
+        function aiSuggestions(){
+            const sendToAi = `"Based on the following performance data, What suggestion would you provide to improve fule efficiency and increase profitability? \n  
+                ${document.getElementById("totalFuel").textContent} \n
+                ${document.getElementById("totalTicketSales").textContent} \n
+                ${document.getElementById("averageEfficiency").textContent} \n
+                ${document.getElementById("bestVehicle").textContent} \n
+                ${document.getElementById("worstVehicle").textContent} \n
+                What strategies can be implemented to enhance vehicle efficiency and potentially improve ticket sales?"
+                `;
+            console.log(sendToAi);
+                
+
+            generateContent(sendToAi);
+
+        }        
+        // generateContent(sendToAi);
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./script.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <!-- <script src="./gemini.js"></script> -->
+    
+</body>
+</html>
